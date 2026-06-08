@@ -1,0 +1,51 @@
+[
+  {"icao":"SBCA","name":"Aeroporto Regional do Oeste","city":"Cascavel","state":"Paraná"},
+  {"icao":"SBCT","name":"Afonso Pena Internacional","city":"Curitiba","state":"Paraná"},
+  {"icao":"SBLO","name":"General Leite de Castro","city":"Londrina","state":"Paraná"},
+  {"icao":"SBMG","name":"Silvio Name Júnior Regional","city":"Maringá","state":"Paraná"},
+  {"icao":"SBFI","name":"Cataratas Internacional","city":"Foz do Iguaçu","state":"Paraná"},
+
+  {"icao":"SBFL","name":"Hercílio Luz Internacional","city":"Florianópolis","state":"Santa Catarina"},
+  {"icao":"SBJV","name":"Lauro Carneiro de Loyola","city":"Joinville","state":"Santa Catarina"},
+  {"icao":"SBNF","name":"Min. Victor Konder Internacional","city":"Navegantes","state":"Santa Catarina"},
+
+  {"icao":"SBPA","name":"Salgado Filho Internacional","city":"Porto Alegre","state":"Rio Grande do Sul"},
+  {"icao":"SBCX","name":"Hugo Cantergiani Regional","city":"Caxias do Sul","state":"Rio Grande do Sul"},
+
+  {"icao":"SBGR","name":"Guarulhos Internacional","city":"Guarulhos","state":"São Paulo"},
+  {"icao":"SBSP","name":"Congonhas","city":"São Paulo","state":"São Paulo"},
+  {"icao":"SBKP","name":"Viracopos Internacional","city":"Campinas","state":"São Paulo"},
+  {"icao":"SBRP","name":"Leite Lopes","city":"Ribeirão Preto","state":"São Paulo"},
+
+  {"icao":"SBGL","name":"Galeão Internacional","city":"Rio de Janeiro","state":"Rio de Janeiro"},
+  {"icao":"SBRJ","name":"Santos Dumont","city":"Rio de Janeiro","state":"Rio de Janeiro"},
+
+  {"icao":"SBCF","name":"Tancredo Neves Internacional","city":"Belo Horizonte","state":"Minas Gerais"},
+  {"icao":"SBUL","name":"Ten. Cel. Aviador César Bombonato","city":"Uberlândia","state":"Minas Gerais"},
+  {"icao":"SBMK","name":"Mário Ribeiro","city":"Montes Claros","state":"Minas Gerais"},
+
+  {"icao":"SBVT","name":"Eurico de Aguiar Salles","city":"Vitória","state":"Espírito Santo"},
+
+  {"icao":"SBBR","name":"JK Internacional","city":"Brasília","state":"Distrito Federal"},
+  {"icao":"SBGO","name":"Santa Genoveva","city":"Goiânia","state":"Goiás"},
+  {"icao":"SBCY","name":"Marechal Rondon Internacional","city":"Cuiabá","state":"Mato Grosso"},
+  {"icao":"SBCG","name":"Antonio João Internacional","city":"Campo Grande","state":"Mato Grosso do Sul"},
+
+  {"icao":"SBSV","name":"Dep. Luís Eduardo Magalhães","city":"Salvador","state":"Bahia"},
+  {"icao":"SBFZ","name":"Pinto Martins Internacional","city":"Fortaleza","state":"Ceará"},
+  {"icao":"SBRF","name":"Guararapes Internacional","city":"Recife","state":"Pernambuco"},
+  {"icao":"SBSL","name":"Cunha Machado Internacional","city":"São Luís","state":"Maranhão"},
+  {"icao":"SBTE","name":"Sen. Petrônio Portella","city":"Teresina","state":"Piauí"},
+  {"icao":"SBJP","name":"Pres. Castro Pinto Internacional","city":"João Pessoa","state":"Paraíba"},
+  {"icao":"SBMO","name":"Zumbi dos Palmares Internacional","city":"Maceió","state":"Alagoas"},
+  {"icao":"SBSE","name":"Santa Maria","city":"Aracaju","state":"Sergipe"},
+  {"icao":"SBSG","name":"São Gonçalo do Amarante Internacional","city":"Natal","state":"Rio Grande do Norte"},
+
+  {"icao":"SBEG","name":"Eduardo Gomes Internacional","city":"Manaus","state":"Amazonas"},
+  {"icao":"SBBE","name":"Val-de-Cans Internacional","city":"Belém","state":"Pará"},
+  {"icao":"SBSN","name":"Maestro Wilson Fonseca","city":"Santarém","state":"Pará"},
+  {"icao":"SBMQ","name":"Alberto Alcolumbre Internacional","city":"Macapá","state":"Amapá"},
+  {"icao":"SBBV","name":"Atlas Brasil Cantanhede Internacional","city":"Boa Vista","state":"Roraima"},
+  {"icao":"SBPV","name":"Gov. Jorge Teixeira de Oliveira","city":"Porto Velho","state":"Rondônia"},
+  {"icao":"SBRB","name":"Plácido de Castro Internacional","city":"Rio Branco","state":"Acre"}
+]
