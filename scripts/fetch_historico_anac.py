@@ -125,20 +125,43 @@ def diff_minutos(partida_prev: str, partida_real: str) -> int | None:
 def baixar_vra() -> list[dict]:
     for url in [VRA_URL, VRA_URL_ALT]:
         print(f"\nGET {url}")
+
         try:
             r = requests.get(url, timeout=120)
+
+            print(f"Status Code: {r.status_code}")
+            print(f"Content-Type: {r.headers.get('content-type')}")
+
             if r.status_code == 404:
-                print(f"  Não encontrado (404) — tentando URL alternativa.")
+                print("  Não encontrado (404) — tentando URL alternativa.")
                 continue
+
             r.raise_for_status()
-            # Decodifica com latin-1 (padrão do VRA)
+
             texto = r.content.decode("latin-1", errors="replace")
+
+            print("\n===== INÍCIO DO ARQUIVO =====")
+            print(texto[:1000])
+            print("===== FIM DA AMOSTRA =====\n")
+
             reader = csv.DictReader(io.StringIO(texto), delimiter=";")
+
+            print("Colunas encontradas:")
+            print(reader.fieldnames)
+
             registros = list(reader)
-            print(f"  VRA carregado: {len(registros)} linhas brutas")
+
+            print(f"VRA carregado: {len(registros)} linhas brutas")
+
+            if len(registros) > 0:
+                print("\nPrimeiro registro:")
+                print(registros[0])
+
             return registros
+
         except Exception as e:
-            print(f"  [ERRO] {e}")
+            print(f"[ERRO] {e}")
+
     return []
 
 
