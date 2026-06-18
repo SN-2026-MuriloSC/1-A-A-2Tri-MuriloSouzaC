@@ -58,21 +58,17 @@ print(f"Período histórico: {ano_mes}")
 print(f"Aeroportos filtrados: {', '.join(AIRPORTS)}")
 
 # ── URL do VRA ────────────────────────────────────────────────────────────────
-# Formato do portal ANAC:
-# https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es/VRA/YYYY/AAAAMM.csv
-VRA_URL = (
-    f"https://sistemas.anac.gov.br/dadosabertos/"
-    f"Voos%20e%20opera%C3%A7%C3%B5es/VRA/{ano}/{ano}{mes}.csv"
-)
 
-# URL alternativa (portal de dados abertos)
-VRA_URL_ALT = (
-    f"https://www.gov.br/anac/pt-br/assuntos/dados-e-estatisticas/"
-    f"dados-estatisticos/arquivos/VRA{ano}{mes}.csv"
+# URL atual do SIROS/ANAC
+
+VRA_URL = (
+    f"https://siros.anac.gov.br/siros/registros/diversos/vra/"
+    f"{ano}/VRA_{ano}_{mes}.csv"
 )
 
 # Mapeamento de colunas do CSV do VRA
 # (nomes reais no arquivo — podem variar levemente entre versões)
+
 COLS = {
     "empresa":       ["EMPRESA (SIGLA)", "Empresa (Sigla)", "sg_empresa_icao"],
     "voo":           ["NÚMERO VOO",      "Numero Voo",      "nr_voo"],
@@ -123,46 +119,46 @@ def diff_minutos(partida_prev: str, partida_real: str) -> int | None:
 # ── Busca o arquivo VRA ───────────────────────────────────────────────────────
 
 def baixar_vra() -> list[dict]:
-    for url in [VRA_URL, VRA_URL_ALT]:
-        print(f"\nGET {url}")
+    url = VRA_URL
 
-        try:
-            r = requests.get(url, timeout=120)
+    print(f"\nGET {url}")
 
-            print(f"Status Code: {r.status_code}")
-            print(f"Content-Type: {r.headers.get('content-type')}")
+    try:
+        r = requests.get(url, timeout=120)
 
-            if r.status_code == 404:
-                print("  Não encontrado (404) — tentando URL alternativa.")
-                continue
+        print(f"Status Code: {r.status_code}")
+        print(f"Content-Type: {r.headers.get('content-type')}")
 
-            r.raise_for_status()
+        if r.status_code == 404:
+            print("Não encontrado (404)")
+            return []
 
-            texto = r.content.decode("latin-1", errors="replace")
+        r.raise_for_status()
 
-            print("\n===== INÍCIO DO ARQUIVO =====")
-            print(texto[:1000])
-            print("===== FIM DA AMOSTRA =====\n")
+        texto = r.content.decode("latin-1", errors="replace")
 
-            reader = csv.DictReader(io.StringIO(texto), delimiter=";")
+        print("\n===== INÍCIO DO ARQUIVO =====")
+        print(texto[:1000])
+        print("===== FIM DA AMOSTRA =====\n")
 
-            print("Colunas encontradas:")
-            print(reader.fieldnames)
+        reader = csv.DictReader(io.StringIO(texto), delimiter=";")
 
-            registros = list(reader)
+        print("Colunas encontradas:")
+        print(reader.fieldnames)
 
-            print(f"VRA carregado: {len(registros)} linhas brutas")
+        registros = list(reader)
 
-            if len(registros) > 0:
-                print("\nPrimeiro registro:")
-                print(registros[0])
+        print(f"VRA carregado: {len(registros)} linhas brutas")
 
-            return registros
+        if registros:
+            print("\nPrimeiro registro:")
+            print(registros[0])
 
-        except Exception as e:
-            print(f"[ERRO] {e}")
+        return registros
 
-    return []
+    except Exception as e:
+        print(f"[ERRO] {e}")
+        return []
 
 
 # ── Processa e filtra registros ───────────────────────────────────────────────
