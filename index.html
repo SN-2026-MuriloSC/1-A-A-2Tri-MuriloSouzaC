@@ -139,10 +139,27 @@
              justify-content: space-between; gap: .5rem; }
     footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
+
+ /*CSS DO GRÁFICO */
+   .chart-container {
+  width: 100%;
+  max-width: 600px;   /* evita ficar enorme em telas grandes */
+  height: 260px;      /* aqui controla o tamanho */
+  margin: 1rem auto;
+  position: relative;
+}
+
+#graficoAeroportos {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
   </style>
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  
 
   
   <script>
@@ -228,7 +245,9 @@
     <!-- ══════════════════════════════════════════════ -->
   <!-- Local dos Gráficos                          -->
   <!-- ══════════════════════════════════════════════ -->
-    <canvas id="graficoAeroportos"></canvas>
+  <div class="chart-container">
+  <canvas id="graficoAeroportos"></canvas>
+  </div>
 
     <div id="meta-bar">Carregando lista de aeroportos...</div>
 
@@ -293,6 +312,8 @@
       <div class="stat-card"><div class="st-lbl">Cancelados</div><div class="st-val" id="h-canc">—</div><div class="st-sub" id="h-canc-pct"></div></div>
       <div class="stat-card"><div class="st-lbl">Atraso médio (partida)</div><div class="st-val" id="h-atraso">—</div><div class="st-sub">minutos</div></div>
     </div>
+
+    
 
     <div id="hist-meta" style="font-size:.74rem;color:var(--muted);margin-bottom:1rem"></div>
 
@@ -727,6 +748,8 @@
           `<tr><td colspan="6" class="empty">Erro: ${escapeHtml(e.message)}</td></tr>`;
       }
     }
+    
+  /* ──Gráfico ────────────────────────────────────────────────── */    
 function renderGrafico() {
   const canvas = document.getElementById('graficoAeroportos');
   if (!canvas) return;
@@ -753,6 +776,7 @@ function renderGrafico() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false, // evita o gráfico ficar enorme
       plugins: {
         legend: { display: false },
         title: {
