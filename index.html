@@ -389,6 +389,7 @@
     let sortChegadas = { col: 'chegada_iso', asc: true };
     let sortPartidas = { col: 'partida_iso', asc: true };
     let histAll = [], pagHist = 1;
+    let graficoAeroportos = null;
 
     /* ── Helpers ─────────────────────────────────────────────────────── */
     function fmtHora(iso) {
@@ -506,6 +507,7 @@
 
     /* ── Voos do dia ─────────────────────────────────────────────────── */
     async function loadFlights() {
+      
       const icao = document.getElementById('sel-airport').value;
       const date = document.getElementById('sel-date').value;
       if (!icao || !date) return;
@@ -540,6 +542,7 @@
           `Data: ${fmtData(date)} · ${chegadas.length} chegadas · ${partidas.length} partidas · Clique no cabeçalho para ordenar`;
         populateAirlineFilter();
         applyFilters();
+        
       } catch(e) {
         document.getElementById('meta-bar').textContent = 'Erro ao consultar Supabase: ' + escapeHtml(e.message);
         chegadasAll = partidasAll = chegadasFilt = partidasFilt = [];
@@ -570,7 +573,8 @@
       partidasFilt = partidasAll.filter(f =>
         (!fA || f.nome_empresa === fA) && (!fT || f.tipo_operacao === fT));
       pagChegadas = pagPartidas = 1;
-      renderTables();
+     renderTables();
+     renderGrafico();
     }
 
     function sortTable(which, col) {
@@ -723,7 +727,48 @@
           `<tr><td colspan="6" class="empty">Erro: ${escapeHtml(e.message)}</td></tr>`;
       }
     }
+function renderGrafico() {
+  const canvas = document.getElementById('graficoAeroportos');
+  if (!canvas) return;
 
+  const ctx = canvas.getContext('2d');
+
+  const chegadas = chegadasFilt?.length || 0;
+  const partidas = partidasFilt?.length || 0;
+
+  if (graficoAeroportos) {
+    graficoAeroportos.destroy();
+  }
+
+  graficoAeroportos = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Chegadas', 'Partidas'],
+      datasets: [{
+        label: 'Voos',
+        data: [chegadas, partidas],
+        backgroundColor: ['#4ade80', '#fb923c'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Movimentação do Aeroporto'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { precision: 0 }
+        }
+      }
+    }
+  });
+}
     /* ── Init ────────────────────────────────────────────────────────── */
     loadAirports();
     setInterval(() => { if (currentIcao) loadFlights(); }, 300000);
