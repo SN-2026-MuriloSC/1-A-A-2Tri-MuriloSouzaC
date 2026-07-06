@@ -166,6 +166,13 @@
   background: var(--surface);
 }
 #mapaRotas { width: 100%; height: 100%; background: var(--surface); }
+.map-legend { display: flex; flex-wrap: wrap; gap: 1.1rem; align-items: center;
+              font-size: .74rem; color: var(--muted); padding: .6rem .2rem 0; }
+.map-legend .item { display: flex; align-items: center; gap: .4rem; }
+.map-legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.map-legend .dot.base { background: var(--accent); }
+.map-legend .dot.dest { background: var(--green); }
+.map-legend .line { width: 20px; height: 3px; border-radius: 2px; background: var(--orange); display: inline-block; flex-shrink: 0; }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
   background: var(--surface); color: var(--text);
 }
@@ -274,6 +281,11 @@
   <div class="section-title"><span>🗺</span> Mapa de rotas</div>
   <div class="map-container">
     <div id="mapaRotas"></div>
+  </div>
+  <div class="map-legend">
+    <span class="item"><span class="dot base"></span> Aeroporto selecionado</span>
+    <span class="item"><span class="dot dest"></span> Aeroporto conectado (origem/destino)</span>
+    <span class="item"><span class="line"></span> Rota — espessura proporcional ao nº de voos</span>
   </div>
 
     <div id="meta-bar">Carregando lista de aeroportos...</div>
