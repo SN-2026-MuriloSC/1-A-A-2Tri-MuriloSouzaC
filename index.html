@@ -154,9 +154,28 @@
   height: 100% !important;
   display: block;
 }
+
+/* CSS DO MAPA DE ROTAS */
+.map-container {
+  width: 100%;
+  height: 420px;
+  margin: 1rem 0 1.5rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+#mapaRotas { width: 100%; height: 100%; background: var(--surface); }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--surface); color: var(--text);
+}
+.leaflet-container a { color: var(--accent); }
+.route-popup b { color: var(--accent); }
   </style>
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/[email protected]/dist/leaflet.css" />
+  <script src="https://unpkg.com/[email protected]/dist/leaflet.js"></script>
 </head>
 <body>
   
@@ -247,6 +266,14 @@
   <!-- ══════════════════════════════════════════════ -->
   <div class="chart-container">
   <canvas id="graficoAeroportos"></canvas>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- Mapa interativo de rotas                      -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="section-title"><span>🗺</span> Mapa de rotas</div>
+  <div class="map-container">
+    <div id="mapaRotas"></div>
   </div>
 
     <div id="meta-bar">Carregando lista de aeroportos...</div>
@@ -411,6 +438,8 @@
     let sortPartidas = { col: 'partida_iso', asc: true };
     let histAll = [], pagHist = 1;
     let graficoAeroportos = null;
+    let routeMap = null;
+    let routeLayer = null;
 
     /* ── Helpers ─────────────────────────────────────────────────────── */
     function fmtHora(iso) {
@@ -596,6 +625,7 @@
       pagChegadas = pagPartidas = 1;
      renderTables();
      renderGrafico();
+     renderMapa();
     }
 
     function sortTable(which, col) {
@@ -798,6 +828,78 @@ function renderGrafico() {
     }
   });
 }
+    /* ── Mapa de rotas ───────────────────────────────────────────────── */
+    function findAirport(icao) {
+      return airports.find(a => a.icao === icao);
+    }
+
+    function initMap() {
+      if (routeMap) return;
+      routeMap = L.map('mapaRotas', { scrollWheelZoom: false }).setView([-15.7, -47.9], 4);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 18
+      }).addTo(routeMap);
+      routeLayer = L.layerGroup().addTo(routeMap);
+    }
+
+    function renderMapa() {
+      if (typeof L === 'undefined') return;
+      initMap();
+      routeLayer.clearLayers();
+
+      const base = findAirport(currentIcao);
+      if (!base || base.lat == null || base.lon == null) return;
+
+      // Conta quantos voos (reais, vindos do Supabase) ligam o aeroporto
+      // selecionado a cada outro aeroporto — chegadas + partidas filtradas
+      const contagem = {};
+      chegadasFilt.forEach(f => {
+        const o = (f.icao_origem || '').toUpperCase();
+        if (o) contagem[o] = (contagem[o] || 0) + 1;
+      });
+      partidasFilt.forEach(f => {
+        const d = (f.icao_destino || '').toUpperCase();
+        if (d) contagem[d] = (contagem[d] || 0) + 1;
+      });
+
+      const baseLatLng = [base.lat, base.lon];
+
+      // Marcador do aeroporto selecionado
+      L.circleMarker(baseLatLng, {
+        radius: 8, color: '#38bdf8', fillColor: '#38bdf8', fillOpacity: 1, weight: 2
+      }).bindPopup(`<div class="route-popup"><b>${escapeHtml(base.icao)}</b><br>${escapeHtml(base.name)}<br>${escapeHtml(base.city)}/${escapeHtml(base.state)}</div>`)
+        .addTo(routeLayer);
+
+      const codigos = Object.keys(contagem);
+      if (!codigos.length) return;
+
+      const maxVoos = Math.max(...codigos.map(c => contagem[c]));
+      const bounds = [baseLatLng];
+
+      codigos.forEach(icao => {
+        if (icao === currentIcao) return;
+        const dest = findAirport(icao);
+        if (!dest || dest.lat == null || dest.lon == null) return;
+        const destLatLng = [dest.lat, dest.lon];
+        const qtd = contagem[icao];
+        const peso = 1 + (qtd / maxVoos) * 4; // espessura da linha proporcional ao nº de voos reais
+
+        L.polyline([baseLatLng, destLatLng], {
+          color: '#fb923c', weight: peso, opacity: 0.55
+        }).addTo(routeLayer);
+
+        L.circleMarker(destLatLng, {
+          radius: 5, color: '#4ade80', fillColor: '#4ade80', fillOpacity: 1, weight: 1
+        }).bindPopup(`<div class="route-popup"><b>${escapeHtml(dest.icao)}</b><br>${escapeHtml(dest.name)}<br>${escapeHtml(dest.city)}/${escapeHtml(dest.state)}<br>${qtd} voo(s) no filtro atual</div>`)
+          .addTo(routeLayer);
+
+        bounds.push(destLatLng);
+      });
+
+      routeMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 7 });
+    }
+
     /* ── Init ────────────────────────────────────────────────────────── */
     loadAirports();
     setInterval(() => { if (currentIcao) loadFlights(); }, 300000);
