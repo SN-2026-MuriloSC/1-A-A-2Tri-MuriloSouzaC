@@ -310,7 +310,7 @@
       <div class="stat-card"><div class="st-lbl">Total de voos</div><div class="st-val" id="h-total">—</div></div>
       <div class="stat-card"><div class="st-lbl">Realizados</div><div class="st-val" id="h-real">—</div><div class="st-sub" id="h-real-pct"></div></div>
       <div class="stat-card"><div class="st-lbl">Cancelados</div><div class="st-val" id="h-canc">—</div><div class="st-sub" id="h-canc-pct"></div></div>
-      <div class="stat-card"><div class="st-lbl">Atraso médio (partida)</div><div class="st-val" id="h-atraso">—</div><div class="st-sub">minutos</div></div>
+      <div class="stat-card"><div class="st-lbl">Atraso médio (partida, realizados)</div><div class="st-val" id="h-atraso">—</div><div class="st-sub">minutos · negativo = adiantado</div></div>
     </div>
 
     
@@ -686,7 +686,12 @@
         const total    = dados.length;
         const realiz   = dados.filter(f => (f.situacao||'').includes('realiz')).length;
         const canc     = dados.filter(f => (f.situacao||'').includes('cancel')).length;
-        const atrasos  = dados.map(f => f.atraso_partida).filter(v => v !== null && v > 0);
+        // Média considerando TODOS os voos realizados (inclui adiantados/negativos)
+        // — antes filtrava só v > 0, o que média apenas os atrasados e inflava o número
+        const atrasos  = dados
+          .filter(f => (f.situacao||'').includes('realiz'))
+          .map(f => f.atraso_partida)
+          .filter(v => v !== null && v !== undefined);
         const mediaAt  = atrasos.length ? Math.round(atrasos.reduce((a,b)=>a+b,0)/atrasos.length) : null;
 
         document.getElementById('h-total').textContent   = total;
