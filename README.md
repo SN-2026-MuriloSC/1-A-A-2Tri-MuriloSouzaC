@@ -10,7 +10,7 @@
 
 <p align="center">
 
-![Status](https://img.shields.io/badge/status-completed-brightgreen)
+![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 ![License](https://img.shields.io/badge/license-none-lightgrey)
 
 </p>
