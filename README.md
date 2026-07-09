@@ -32,6 +32,7 @@
 <p align="center">
   <b>Click the buttons below to open the project:</b>
 </p>
+
 <p align="center">
 
 <a href="https://sn-2026-murilosc.github.io/1-A-A-2Tri-MuriloSouzaC/">
@@ -61,6 +62,7 @@
 - Project Structure
 - Getting Started
 - Deployment
+- Known Limitations
 - Roadmap
 - License
 
@@ -200,13 +202,7 @@ flight-monitor-dashboard/
 
 ```bash
 git clone https://github.com/SN-2026-MuriloSC/1-A-A-2Tri-MuriloSouzaC.git
-```
-
-```bash
 cd 1-A-A-2Tri-MuriloSouzaC
-```
-
-```bash
 pip install -r requirements.txt
 ```
 
@@ -222,6 +218,13 @@ The application is available on:
 - Vercel
 
 The ETL pipeline runs automatically through scheduled GitHub Actions workflows, ensuring that the dashboard remains synchronized with the latest available flight information.
+
+---
+
+# Known Limitations
+
+- This project uses Supabase's free tier, which automatically pauses the database after a period of inactivity. If the live demo appears unresponsive, the database may need a few seconds to resume, or manual reactivation may be required via the Supabase dashboard.
+- In a production environment, this would be mitigated by upgrading to a paid tier or implementing a scheduled ping to keep the instance active.
 
 ---
 
