@@ -1,3 +1,4 @@
+````md
 # Flight Monitoring Dashboard
 
 <p align="center">
@@ -29,25 +30,29 @@
 
 </p>
 
+---
+
+# Live Demo
+
+The buttons below open the deployed versions of the project.
+
 <p align="center">
 
 <a href="https://sn-2026-murilosc.github.io/1-A-A-2Tri-MuriloSouzaC/">
-<img src="https://img.shields.io/badge/GitHub%20Pages-Live-blue?style=for-the-badge">
+<img src="https://img.shields.io/badge/Open%20Project-GitHub%20Pages-blue?style=for-the-badge&logo=github">
 </a>
 
 <a href="https://sirosdashboard.vercel.app/">
-<img src="https://img.shields.io/badge/Vercel-Live-black?style=for-the-badge">
+<img src="https://img.shields.io/badge/Open%20Project-Vercel-black?style=for-the-badge&logo=vercel">
 </a>
 
 <a href="https://github.com/SN-2026-MuriloSC/1-A-A-2Tri-MuriloSouzaC">
-<img src="https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge">
+<img src="https://img.shields.io/badge/View%20Source-GitHub-black?style=for-the-badge&logo=github">
 </a>
 
 </p>
 
 ---
-
-
 
 # Table of Contents
 
@@ -75,7 +80,7 @@ The project implements a complete ETL pipeline using GitHub Actions and Supabase
 
 # Why this project
 
-This project was built to practice and demonstrate:
+This project was developed to practice and demonstrate:
 
 - ETL pipeline development
 - Python automation
@@ -156,9 +161,11 @@ Supabase PostgreSQL
        ▼
 Web Dashboard
 (GitHub Pages / Vercel)
-```
+````
 
-The application periodically retrieves flight data from the SIROS/ANAC API through scheduled GitHub Actions workflows. The data is processed using Python, stored in a Supabase PostgreSQL database and displayed through a responsive dashboard deployed on GitHub Pages and Vercel.
+The application periodically retrieves flight data from the SIROS/ANAC API through scheduled GitHub Actions workflows.
+
+The data is processed using Python, stored in a Supabase PostgreSQL database and displayed through a responsive dashboard deployed on GitHub Pages and Vercel.
 
 ---
 
@@ -191,9 +198,9 @@ flight-monitor-dashboard/
 
 ## Prerequisites
 
-- Python 3.12 or later
-- Supabase project
-- GitHub account
+* Python 3.12 or later
+* Supabase project
+* GitHub account
 
 ## Installation
 
@@ -215,10 +222,10 @@ Configure the required environment variables and execute the data collection scr
 
 # Deployment
 
-The application is available on:
+The application is deployed on:
 
-- GitHub Pages
-- Vercel
+* GitHub Pages
+* Vercel
 
 The ETL pipeline runs automatically through scheduled GitHub Actions workflows, ensuring that the dashboard remains synchronized with the latest available flight information.
 
@@ -226,17 +233,17 @@ The ETL pipeline runs automatically through scheduled GitHub Actions workflows, 
 
 # Roadmap
 
-- [x] SIROS/ANAC API integration
-- [x] Automated ETL pipeline
-- [x] GitHub Actions workflows
-- [x] Supabase integration
-- [x] Responsive dashboard
-- [x] GitHub Pages deployment
-- [x] Vercel deployment
-- [ ] Interactive charts
-- [ ] Airport statistics
-- [ ] Advanced search
-- [ ] User authentication
+* [x] SIROS/ANAC API integration
+* [x] Automated ETL pipeline
+* [x] GitHub Actions workflows
+* [x] Supabase integration
+* [x] Responsive dashboard
+* [x] GitHub Pages deployment
+* [x] Vercel deployment
+* [ ] Interactive charts
+* [ ] Airport statistics
+* [ ] Advanced search
+* [ ] User authentication
 
 ---
 
@@ -245,3 +252,6 @@ The ETL pipeline runs automatically through scheduled GitHub Actions workflows, 
 This project was developed for educational purposes.
 
 No license has been applied.
+
+```
+```
