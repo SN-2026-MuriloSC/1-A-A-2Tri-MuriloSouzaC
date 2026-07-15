@@ -5,13 +5,13 @@
 </p>
 
 <p align="center">
-  Automated flight monitoring dashboard powered by the SIROS/ANAC API, Supabase and GitHub Actions.
+  Automated ETL pipeline and real-time dashboard for flight data, built with Python, GitHub Actions, and Supabase.
 </p>
 
 <p align="center">
 
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
-![License](https://img.shields.io/badge/license-none-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 </p>
 
@@ -49,7 +49,7 @@
 <img src="https://img.shields.io/badge/Vercel-Live-black?style=for-the-badge">
 </a>
 
-<a href="https://github.com/SN-2026-MuriloSC/1-A-A-2Tri-MuriloSouzaC">
+<a href="https://github.com/murilotecoteco/flight-monitoring-dashboard">
 <img src="https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge">
 </a>
 
@@ -59,41 +59,28 @@
 
 # Table of Contents
 
-- About
-- Why this project
-- Screenshots
-- Features
-- Technology Stack
-- Architecture
-- Project Structure
-- Getting Started
-- Deployment
-- Known Limitations
-- Roadmap
-- License
+- [About](#about)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Architecture](#architecture)
+- [Challenges & Solutions](#challenges--solutions)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Deployment](#deployment)
+- [Known Limitations](#known-limitations)
+- [Roadmap](#roadmap)
+- [License](#license)
 
 ---
 
 # About
 
-Flight Monitoring Dashboard is a web application that automatically collects, processes, stores and visualizes flight information from the SIROS/ANAC API.
+Flight Monitoring Dashboard automatically collects, processes, stores, and visualizes flight data from Brazil's SIROS/ANAC public API.
 
-The project implements a complete ETL pipeline using GitHub Actions and Supabase, making flight data continuously available through a responsive web dashboard.
+The project implements a full ETL pipeline orchestrated by scheduled GitHub Actions workflows, with Python handling extraction and transformation, and Supabase (PostgreSQL) as the persistence layer. The result is a responsive dashboard that stays continuously synchronized with the latest available flight data — no manual updates required.
 
----
-
-# Why this project
-
-This project was built to practice and demonstrate:
-
-- ETL pipeline development
-- Python automation
-- Scheduled GitHub Actions workflows
-- REST API integration
-- Cloud database management
-- PostgreSQL
-- Data visualization
-- Automated deployment
+This project was built to explore how far a serverless, zero-cost stack (GitHub Actions + Supabase free tier) can go in delivering a production-like automated data pipeline.
 
 ---
 
@@ -119,17 +106,13 @@ This project was built to practice and demonstrate:
 
 # Features
 
-- Automated ETL pipeline
-- Scheduled GitHub Actions workflows
-- SIROS/ANAC API integration
-- Supabase PostgreSQL database
-- Responsive dashboard
-- Airport filtering
-- Airline filtering
-- Flight history
-- Automatic data synchronization
-- GitHub Pages deployment
-- Vercel deployment
+- Automated ETL pipeline with scheduled execution
+- SIROS/ANAC REST API integration
+- Supabase PostgreSQL as the data layer
+- Responsive dashboard with airport and airline filtering
+- Flight history tracking
+- Continuous data synchronization — no manual intervention
+- Dual deployment (GitHub Pages + Vercel)
 
 ---
 
@@ -138,10 +121,10 @@ This project was built to practice and demonstrate:
 | Layer | Technology |
 | ------ | ---------- |
 | Backend | Python 3.12 |
-| Automation | GitHub Actions |
+| Automation | GitHub Actions (scheduled workflows) |
 | Database | Supabase (PostgreSQL) |
 | Frontend | HTML5, CSS3, JavaScript |
-| API | SIROS / ANAC |
+| Data Source | SIROS / ANAC API |
 | Deployment | GitHub Pages, Vercel |
 | Version Control | Git & GitHub |
 
@@ -167,14 +150,24 @@ Web Dashboard
 (GitHub Pages / Vercel)
 ```
 
-The application periodically retrieves flight data from the SIROS/ANAC API through scheduled GitHub Actions workflows. The data is processed using Python, stored in a Supabase PostgreSQL database and displayed through a responsive dashboard deployed on GitHub Pages and Vercel.
+The pipeline runs on a schedule via GitHub Actions, fetching flight data from the SIROS/ANAC API, processing it with Python, and persisting it to Supabase PostgreSQL. The dashboard reads from this database and stays in sync automatically, with no server to maintain.
+
+---
+
+# Challenges & Solutions
+
+**Challenge:** Supabase's free tier pauses the database after a period of inactivity, which would break the "always synchronized" premise of the dashboard.
+
+**Solution:** Documented the limitation transparently (see [Known Limitations](#known-limitations)) and outlined two production-ready mitigations: upgrading to a paid tier, or adding a scheduled keep-alive ping as part of the existing GitHub Actions workflow — reusing infrastructure already in place rather than adding a new service.
+
+This reflects a deliberate trade-off: keeping the project fully free-tier while being explicit about what changes in a real production deployment.
 
 ---
 
 # Project Structure
 
 ```text
-flight-monitor-dashboard/
+flight-monitoring-dashboard/
 │
 ├── .github/
 │   └── workflows/
@@ -207,30 +200,30 @@ flight-monitor-dashboard/
 ## Installation
 
 ```bash
-git clone https://github.com/SN-2026-MuriloSC/1-A-A-2Tri-MuriloSouzaC.git
-cd 1-A-A-2Tri-MuriloSouzaC
+git clone https://github.com/murilotecoteco/flight-monitoring-dashboard.git
+cd flight-monitoring-dashboard
 pip install -r requirements.txt
 ```
 
-Configure the required environment variables and execute the data collection script.
+Configure the required environment variables and run the data collection script.
 
 ---
 
 # Deployment
 
-The application is available on:
+Live on both:
 
 - GitHub Pages
 - Vercel
 
-The ETL pipeline runs automatically through scheduled GitHub Actions workflows, ensuring that the dashboard remains synchronized with the latest available flight information.
+The ETL pipeline runs automatically via scheduled GitHub Actions workflows, keeping the dashboard synchronized with the latest available flight data.
 
 ---
 
 # Known Limitations
 
-- This project uses Supabase's free tier, which automatically pauses the database after a period of inactivity. If the live demo appears unresponsive, the database may need a few seconds to resume, or manual reactivation may be required via the Supabase dashboard.
-- In a production environment, this would be mitigated by upgrading to a paid tier or implementing a scheduled ping to keep the instance active.
+- Supabase's free tier automatically pauses the database after a period of inactivity. If the live demo appears unresponsive, the database may need a few seconds to resume, or manual reactivation via the Supabase dashboard.
+- In production, this would be mitigated by upgrading to a paid tier or adding a scheduled keep-alive ping to the existing GitHub Actions workflow.
 
 ---
 
@@ -252,6 +245,4 @@ The ETL pipeline runs automatically through scheduled GitHub Actions workflows, 
 
 # License
 
-This project was developed for educational purposes.
-
-No license has been applied.
+MIT License — free to use, modify, and distribute.
